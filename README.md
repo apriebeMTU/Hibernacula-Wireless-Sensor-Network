@@ -1,5 +1,5 @@
 To download, click the green Code Button and select "Download as Zip".
 
-The main instructions should be located in each folder.
+The best place to start is the Assembly Instructions located in the Temperature Node folder.
 
 Happy building!
