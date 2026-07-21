@@ -10,10 +10,8 @@
 #define MCP7940_ADDR 0x6F
 
 // Define pins
-#define MFP_PIN     25     // MFP connected to D3
-#define LED_PIN     2    // Onboard LED
-#define SDA_PIN     21
-#define SCL_PIN     22
+#define MFP_PIN     3     // MFP connected to D3
+#define LED_PIN     6     // Onboard LED
 
 //Enums 
 /*! ///< Enumeration of MCP7940 alarm types */
@@ -36,7 +34,7 @@ DateTime now;
 DateTime alarmTime;
 
 
-const uint8_t  ALARM_INTERVAL{2};      ///< Interval seconds for alarm
+const uint8_t  ALARM_INTERVAL{5};      ///< Interval seconds for alarm
 const uint32_t SERIAL_SPEED{115200};
 
 volatile bool alarmTriggered = false;
@@ -113,7 +111,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(MFP_PIN), wakeISR, RISING);
 
   Serial.begin(SERIAL_SPEED);
-  Wire.begin(SDA_PIN, SCL_PIN);
+  Wire.begin();
   startRTC(rtc);
   setupAlarm(rtc);
   alarmTriggered = true;

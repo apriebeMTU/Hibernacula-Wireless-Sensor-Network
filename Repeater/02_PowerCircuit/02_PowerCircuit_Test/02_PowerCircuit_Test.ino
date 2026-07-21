@@ -17,8 +17,8 @@ void setup() {
 
 void loop() {
   // put your main code here, to run repeatedly:
-//  digitalWrite(POWER_PIN, HIGH); 
-//  delay(3000);                       
+  digitalWrite(POWER_PIN, HIGH); 
+  delay(5000);                       
   digitalWrite(POWER_PIN, LOW);    
-  delay(3000);  
+  delay(5000);  
 }

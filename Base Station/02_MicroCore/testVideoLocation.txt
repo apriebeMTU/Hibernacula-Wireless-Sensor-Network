@@ -1,0 +1,4 @@
+- ESP32_Test -> On Phone 
+- RTCBaseFunctionality -> Need to screen record 
+- RTCAlarm -> Need to screen record 
+- FullCoreMicro -> On Phone

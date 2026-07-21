@@ -14,6 +14,7 @@
 #define LED_PIN     2    // Onboard LED
 #define SDA_PIN     21
 #define SCL_PIN     22
+#define BUTTON_PIN  13
 
 //Enums 
 /*! ///< Enumeration of MCP7940 alarm types */
@@ -36,14 +37,19 @@ DateTime now;
 DateTime alarmTime;
 
 
-const uint8_t  ALARM_INTERVAL{5};      ///< Interval seconds for alarm
+const uint8_t  ALARM_INTERVAL{2};     ///< Interval seconds for alarm
 const uint32_t SERIAL_SPEED{115200};
 
 volatile bool alarmTriggered = false;
+volatile bool button = true;
 
 //ISRs
 void wakeISR() {
   alarmTriggered = true; 
+}
+
+void buttonISR(){
+  button = !button; 
 }
 
 //User Functions 
@@ -109,8 +115,10 @@ void setupAlarm(MCP7940_Class MCP7940) {
 void setup() {
   pinMode(LED_PIN, OUTPUT);
   pinMode(MFP_PIN, INPUT_PULLUP);  // MFP is open-drain
+  pinMode(BUTTON_PIN, INPUT_PULLUP);  // MFP is open-drain
 
   attachInterrupt(digitalPinToInterrupt(MFP_PIN), wakeISR, RISING);
+  attachInterrupt(digitalPinToInterrupt(BUTTON_PIN), buttonISR, RISING);
 
   Serial.begin(SERIAL_SPEED);
   Wire.begin(SDA_PIN, SCL_PIN);
@@ -124,7 +132,12 @@ void loop() {
   if (alarmTriggered) {
     Serial.println("Alarm triggered!");
 
-    digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+    if (button){
+      digitalWrite(LED_PIN, !digitalRead(LED_PIN));
+    }
+    else{
+      digitalWrite(LED_PIN, LOW);
+    }
 
     //reset alarm
     now = rtc.now();
